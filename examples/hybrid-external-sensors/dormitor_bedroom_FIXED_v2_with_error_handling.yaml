@@ -1,0 +1,49 @@
+alias: Dormitor - Sync Temp to 2xThermostat (Hybrid) - FIXED v2
+description: Real-time updates + 10min keep-alive with rate limiting, offset +2min from Living Room, WITH error handling for Zigbee issues
+triggers:
+  # State trigger with 30-second stabilization to prevent rapid-fire updates
+  - entity_id:
+      - sensor.sonoff_snzb_02d_temperature
+    trigger: state
+    for:
+      seconds: 30  # ← Wait 30 seconds before acting (prevents sensor noise spam)
+  
+  # Time pattern: +2 minute offset from Living Room (prevents Zigbee queue collision)
+  # Fires at :02, :12, :22, :32, :42, :52 (every hour at these minutes)
+  - trigger: template
+    value_template: >-
+      {{ now().minute % 10 == 2 and now().second == 0 }}
+
+conditions:
+  # Ensure sensor has valid value before sending to thermostats
+  - condition: template
+    value_template: >-
+      {{ states('sensor.sonoff_snzb_02d_temperature') not in ['unknown', 'unavailable'] }}
+
+actions:
+  # NEW: Split into separate actions with continue_on_error
+  # This prevents one thermostat's Zigbee error from blocking the other
+  
+  - metadata: {}
+    data:
+      value: "{{ states('sensor.sonoff_snzb_02d_temperature') }}"
+    target:
+      entity_id: number.dormitor_calorifer_1_external_temperature_sensor_value
+    action: number.set_value
+    continue_on_error: true  # ← NEW: If Zigbee error, continue to next thermostat
+  
+  # 1-second delay between thermostats (reduces Zigbee queue pressure)
+  - delay:
+      seconds: 1
+  
+  - metadata: {}
+    data:
+      value: "{{ states('sensor.sonoff_snzb_02d_temperature') }}"
+    target:
+      entity_id: number.dormitor_calorifer_2_external_temperature_sensor_value
+    action: number.set_value
+    continue_on_error: true  # ← NEW: If Zigbee error, log but don't crash
+
+# Prevent overlapping executions and silent fail on overflow
+mode: single  # Only one instance runs at a time
+max_exceeded: silent  # Don't spam logs if triggered too fast
