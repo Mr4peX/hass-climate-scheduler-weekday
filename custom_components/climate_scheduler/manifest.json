@@ -1,11 +1,11 @@
 {
   "domain": "climate_scheduler",
-  "name": "Climate Scheduler",
-  "version": "0.1.0",
-  "documentation": "https://github.com/FrancisLab/hass-climate-scheduler",
-  "issue_tracker": "https://github.com/FrancisLab/hass-climate-scheduler/issues",
+  "name": "Climate Scheduler Weekday",
+  "version": "1.0.0",
+  "documentation": "https://github.com/Mr4peX/hass-climate-scheduler-weekday",
+  "issue_tracker": "https://github.com/Mr4peX/hass-climate-scheduler-weekday/issues",
   "dependencies": ["input_select", "switch", "climate"],
-  "codeowners": ["@FrancisLab"],
+  "codeowners": ["@Mr4peX"],
   "config_flow": false,
   "iot_class" : "calculated"
 }
