@@ -1,0 +1,33 @@
+alias: Dormitor - Sync Temp to 2xThermostat (Hybrid) - FIXED
+description: Real-time updates + 10min keep-alive with rate limiting, offset +2min from Living Room
+triggers:
+  # State trigger with 30-second stabilization to prevent rapid-fire updates
+  - entity_id:
+      - sensor.sonoff_snzb_02d_temperature
+    trigger: state
+    for:
+      seconds: 30  # ← NEW: Wait 30 seconds before acting (prevents sensor noise spam)
+  
+  # Time pattern: +2 minute offset from Living Room (prevents Zigbee queue collision)
+  - minutes: "2,12,22,32,42,52"  # ← CHANGED: Fires at :02, :12, :22, :32, :42, :52
+    trigger: time_pattern
+
+conditions:
+  # Ensure sensor has valid value before sending to thermostats
+  - condition: template
+    value_template: >-
+      {{ states('sensor.sonoff_snzb_02d_temperature') not in ['unknown', 'unavailable'] }}
+
+actions:
+  - metadata: {}
+    data:
+      value: "{{ states('sensor.sonoff_snzb_02d_temperature') }}"
+    target:
+      entity_id:
+        - number.dormitor_calorifer_1_external_temperature_sensor_value
+        - number.dormitor_calorifer_2_external_temperature_sensor_value
+    action: number.set_value
+
+# NEW: Prevent overlapping executions and silent fail on overflow
+mode: single  # Only one instance runs at a time (changed from restart)
+max_exceeded: silent  # Don't spam logs if triggered too fast
