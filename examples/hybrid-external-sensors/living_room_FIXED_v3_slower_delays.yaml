@@ -1,0 +1,77 @@
+alias: Living Room - External Sensor (Hybrid) - FIXED v3
+description: >-
+  Real-time updates + 10min keep-alive with rate limiting to prevent Zigbee
+  overflow, WITH error handling and INCREASED delays for network stability
+triggers:
+  # State trigger with 30-second stabilization to prevent rapid-fire updates
+  - entity_id:
+      - sensor.living_temp_umiditate_temperature
+    trigger: state
+    for:
+      seconds: 30  # ← Wait 30 seconds before acting (prevents sensor noise spam)
+  
+  # Time pattern: Standard /10 pattern (fires at :00, :10, :20, :30, :40, :50)
+  - minutes: /10
+    trigger: time_pattern
+
+conditions:
+  # Ensure sensor has valid value before sending to thermostats
+  - condition: template
+    value_template: >-
+      {{ states('sensor.living_temp_umiditate_temperature') not in ['unknown', 'unavailable'] }}
+
+actions:
+  # Split into 4 separate actions with continue_on_error
+  # INCREASED delays from 1s to 3s for better Zigbee network stability
+  
+  # Thermostat 1: Living Room
+  - metadata: {}
+    data:
+      value: "{{ states('sensor.living_temp_umiditate_temperature') }}"
+    target:
+      entity_id: number.living_calorifer_external_temperature_sensor_value
+    action: number.set_value
+    continue_on_error: true  # ← If Zigbee error, continue to next thermostat
+  
+  # INCREASED: 3-second delay (better network stability)
+  - delay:
+      seconds: 3
+  
+  # Thermostat 2: Entrance Hall
+  - metadata: {}
+    data:
+      value: "{{ states('sensor.living_temp_umiditate_temperature') }}"
+    target:
+      entity_id: number.hol_intrare_calorifer_external_temperature_sensor_value
+    action: number.set_value
+    continue_on_error: true
+  
+  # INCREASED: 3-second delay
+  - delay:
+      seconds: 3
+  
+  # Thermostat 3: Kitchen (WAS FAILING - needs more time)
+  - metadata: {}
+    data:
+      value: "{{ states('sensor.living_temp_umiditate_temperature') }}"
+    target:
+      entity_id: number.bucatarie_calorifer_external_temperature_sensor_value
+    action: number.set_value
+    continue_on_error: true
+  
+  # INCREASED: 3-second delay
+  - delay:
+      seconds: 3
+  
+  # Thermostat 4: Ground Floor Hall
+  - metadata: {}
+    data:
+      value: "{{ states('sensor.living_temp_umiditate_temperature') }}"
+    target:
+      entity_id: number.hol_parter_calorifer_external_temperature_sensor_value
+    action: number.set_value
+    continue_on_error: true  # ← Last one also gets error handling
+
+# Prevent overlapping executions and silent fail on overflow
+mode: single  # Only one instance runs at a time
+max_exceeded: silent  # Don't spam logs if triggered too fast
