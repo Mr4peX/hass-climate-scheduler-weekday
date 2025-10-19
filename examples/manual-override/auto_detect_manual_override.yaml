@@ -1,0 +1,132 @@
+alias: Climate Scheduler - Auto Detect Manual Override (2-Hour Hold)
+description: >-
+  Automatically disables scheduler when manual temperature change detected.
+  Scheduler re-enables after 2 hours to resume normal schedule operation.
+triggers:
+  # Detect when any thermostat temperature setpoint is changed
+  - trigger: state
+    entity_id:
+      - climate.living_calorifer_thermostat
+      - climate.bucatarie_calorifer_thermostat
+      - climate.hol_intrare_calorifer_thermostat
+      - climate.hol_parter_calorifer_thermostat
+      - climate.dormitor_calorifer_1_thermostat
+      - climate.dormitor_calorifer_2_thermostat
+      - climate.birou_calorifer_thermostat
+      - climate.sonoff_trvzb_thermostat
+    attribute: temperature  # Monitor temperature setpoint changes (not current temp)
+    
+conditions:
+  # Only trigger if change was NOT from scheduler or automation
+  # This ensures we only detect true MANUAL changes
+  - condition: template
+    value_template: >-
+      {{ trigger.to_state.context.user_id != none }}
+
+actions:
+  # Determine which scheduler to disable based on which thermostat changed
+  - choose:
+      # ========================================
+      # Living Room Area (4 thermostats)
+      # ========================================
+      - conditions:
+          - condition: template
+            value_template: >-
+              {{ trigger.entity_id in [
+                'climate.living_calorifer_thermostat',
+                'climate.bucatarie_calorifer_thermostat',
+                'climate.hol_intrare_calorifer_thermostat',
+                'climate.hol_parter_calorifer_thermostat'] }}
+        sequence:
+          # Notify that manual mode activated (optional)
+          # - action: notify.notify
+          #   data:
+          #     title: "Living Room - Manual Mode"
+          #     message: "Scheduler disabled for 2 hours due to manual temperature change"
+          
+          # Turn OFF Living Room scheduler
+          - action: switch.turn_off
+            target:
+              entity_id: switch.living_room_heating_scheduler
+          
+          # Wait 2 hours before re-enabling
+          - delay:
+              hours: 2
+          
+          # Re-enable Living Room scheduler
+          - action: switch.turn_on
+            target:
+              entity_id: switch.living_room_heating_scheduler
+          
+          # Notify that scheduler resumed (optional)
+          # - action: notify.notify
+          #   data:
+          #     title: "Living Room - Schedule Resumed"
+          #     message: "Scheduler re-enabled after 2-hour manual override"
+      
+      # ========================================
+      # Bedroom (2 thermostats)
+      # ========================================
+      - conditions:
+          - condition: template
+            value_template: >-
+              {{ trigger.entity_id in [
+                'climate.dormitor_calorifer_1_thermostat',
+                'climate.dormitor_calorifer_2_thermostat'] }}
+        sequence:
+          - action: switch.turn_off
+            target:
+              entity_id: switch.bedroom_dormitor_heating_scheduler
+          
+          - delay:
+              hours: 2
+          
+          - action: switch.turn_on
+            target:
+              entity_id: switch.bedroom_dormitor_heating_scheduler
+      
+      # ========================================
+      # Office (1 thermostat)
+      # ========================================
+      - conditions:
+          - condition: template
+            value_template: >-
+              {{ trigger.entity_id == 'climate.birou_calorifer_thermostat' }}
+        sequence:
+          - action: switch.turn_off
+            target:
+              entity_id: switch.office_birou_heating_scheduler
+          
+          - delay:
+              hours: 2
+          
+          - action: switch.turn_on
+            target:
+              entity_id: switch.office_birou_heating_scheduler
+      
+      # ========================================
+      # Child Room (1 thermostat)
+      # ========================================
+      - conditions:
+          - condition: template
+            value_template: >-
+              {{ trigger.entity_id == 'climate.sonoff_trvzb_thermostat' }}
+        sequence:
+          - action: switch.turn_off
+            target:
+              entity_id: switch.child_room_cam_luca_heating_scheduler
+          
+          - delay:
+              hours: 2
+          
+          - action: switch.turn_on
+            target:
+              entity_id: switch.child_room_cam_luca_heating_scheduler
+
+# IMPORTANT: mode: restart
+# If another manual change happens during the 2-hour delay, 
+# the timer resets and starts counting 2 hours again
+mode: restart
+
+# Log when automation is triggered
+# max_exceeded: silent  # Don't use with restart mode
