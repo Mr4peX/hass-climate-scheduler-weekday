@@ -8,16 +8,16 @@ Based on your actual scheduler names, use this exact configuration:
 type: entities
 title: 🔥 Heating Schedulers
 entities:
-  - entity: switch.living_room_heating
+  - entity: switch.climate_scheduler_living_room_heating
     name: Living Room
     icon: mdi:sofa
-  - entity: switch.dormitor_heating
+  - entity: switch.climate_scheduler_dormitor_heating
     name: Bedroom (Dormitor)
     icon: mdi:bed
-  - entity: switch.birou_heating
+  - entity: switch.climate_scheduler_birou_heating
     name: Office (Birou)
     icon: mdi:desk
-  - entity: switch.luca_room_heating
+  - entity: switch.climate_scheduler_luca_room_heating
     name: Child Room (Luca)
     icon: mdi:human-male-child
 show_header_toggle: true
@@ -31,10 +31,10 @@ Your scheduler names convert to entity IDs like this:
 
 | Scheduler Name | Entity ID |
 |---------------|-----------|
-| "Living Room Heating" | `switch.living_room_heating` |
-| "Dormitor Heating" | `switch.dormitor_heating` |
-| "Birou Heating" | `switch.birou_heating` |
-| "Luca Room Heating" | `switch.luca_room_heating` |
+| "Living Room Heating" | `switch.climate_scheduler_living_room_heating` |
+| "Dormitor Heating" | `switch.climate_scheduler_dormitor_heating` |
+| "Birou Heating" | `switch.climate_scheduler_birou_heating` |
+| "Luca Room Heating" | `switch.climate_scheduler_luca_room_heating` |
 
 **Note:** Home Assistant automatically converts spaces to underscores and removes special characters.
 
@@ -71,33 +71,33 @@ entities:
   # Living Room
   - type: section
     label: Living Room
-  - entity: switch.living_room_heating
+  - entity: switch.climate_scheduler_living_room_heating
     name: Schedule Active
-  - entity: select.living_room_heating_profile
+  - entity: select.climate_scheduler_living_room_heating_profile
     name: Profile
   
   # Bedroom
   - type: section
     label: Bedroom (Dormitor)
-  - entity: switch.dormitor_heating
+  - entity: switch.climate_scheduler_dormitor_heating
     name: Schedule Active
-  - entity: select.dormitor_heating_profile
+  - entity: select.climate_scheduler_dormitor_heating_profile
     name: Profile
   
   # Office
   - type: section
     label: Office (Birou)
-  - entity: switch.birou_heating
+  - entity: switch.climate_scheduler_birou_heating
     name: Schedule Active
-  - entity: select.birou_heating_profile
+  - entity: select.climate_scheduler_birou_heating_profile
     name: Profile
   
   # Child Room
   - type: section
     label: Child Room (Luca)
-  - entity: switch.luca_room_heating
+  - entity: switch.climate_scheduler_luca_room_heating
     name: Schedule Active
-  - entity: select.luca_room_heating_profile
+  - entity: select.climate_scheduler_luca_room_heating_profile
     name: Profile
 ```
 
@@ -110,7 +110,7 @@ type: grid
 columns: 2
 cards:
   - type: button
-    entity: switch.living_room_heating
+    entity: switch.climate_scheduler_living_room_heating
     name: Living Room
     icon: mdi:sofa
     tap_action:
@@ -118,7 +118,7 @@ cards:
     show_state: true
   
   - type: button
-    entity: switch.dormitor_heating
+    entity: switch.climate_scheduler_dormitor_heating
     name: Bedroom
     icon: mdi:bed
     tap_action:
@@ -126,7 +126,7 @@ cards:
     show_state: true
   
   - type: button
-    entity: switch.birou_heating
+    entity: switch.climate_scheduler_birou_heating
     name: Office
     icon: mdi:desk
     tap_action:
@@ -134,7 +134,7 @@ cards:
     show_state: true
   
   - type: button
-    entity: switch.luca_room_heating
+    entity: switch.climate_scheduler_luca_room_heating
     name: Child Room
     icon: mdi:human-male-child
     tap_action:
@@ -153,13 +153,13 @@ cards:
   - type: entities
     title: 🔥 Scheduler Control
     entities:
-      - entity: switch.living_room_heating
+      - entity: switch.climate_scheduler_living_room_heating
         name: Living Room
-      - entity: switch.dormitor_heating
+      - entity: switch.climate_scheduler_dormitor_heating
         name: Bedroom
-      - entity: switch.birou_heating
+      - entity: switch.climate_scheduler_birou_heating
         name: Office
-      - entity: switch.luca_room_heating
+      - entity: switch.climate_scheduler_luca_room_heating
         name: Child Room
     show_header_toggle: true
   
@@ -267,10 +267,10 @@ Copy exact entity_id
 ### Problem: Profile selector not found
 
 **Entity names for profile selectors:**
-- `select.living_room_heating_profile`
-- `select.dormitor_heating_profile`
-- `select.birou_heating_profile`
-- `select.luca_room_heating_profile`
+- `select.climate_scheduler_living_room_heating_profile`
+- `select.climate_scheduler_dormitor_heating_profile`
+- `select.climate_scheduler_birou_heating_profile`
+- `select.climate_scheduler_luca_room_heating_profile`
 
 **If not found:**
 Check if your scheduler configuration has multiple profiles defined.
@@ -317,10 +317,10 @@ heating_manual_mode:
     - service: switch.turn_off
       target:
         entity_id:
-          - switch.living_room_heating
-          - switch.dormitor_heating
-          - switch.birou_heating
-          - switch.luca_room_heating
+          - switch.climate_scheduler_living_room_heating
+          - switch.climate_scheduler_dormitor_heating
+          - switch.climate_scheduler_birou_heating
+          - switch.climate_scheduler_luca_room_heating
 
 heating_auto_mode:
   alias: "All Heating Auto Mode"
@@ -328,10 +328,10 @@ heating_auto_mode:
     - service: switch.turn_on
       target:
         entity_id:
-          - switch.living_room_heating
-          - switch.dormitor_heating
-          - switch.birou_heating
-          - switch.luca_room_heating
+          - switch.climate_scheduler_living_room_heating
+          - switch.climate_scheduler_dormitor_heating
+          - switch.climate_scheduler_birou_heating
+          - switch.climate_scheduler_luca_room_heating
 ```
 
 Then add buttons to dashboard:
@@ -356,13 +356,13 @@ Make switches more visual:
 ```yaml
 type: entities
 entities:
-  - entity: switch.living_room_heating
+  - entity: switch.climate_scheduler_living_room_heating
     name: Living Room
     icon: mdi:sofa
     card_mod:
       style: |
         :host {
-          --paper-item-icon-color: {% if is_state('switch.living_room_heating', 'on') %} green {% else %} red {% endif %};
+          --paper-item-icon-color: {% if is_state('switch.climate_scheduler_living_room_heating', 'on') %} green {% else %} red {% endif %};
         }
 ```
 
@@ -380,7 +380,7 @@ Get notified when manual mode active:
       at: "22:00:00"  # 10 PM reminder
   condition:
     - condition: state
-      entity_id: switch.living_room_heating
+      entity_id: switch.climate_scheduler_living_room_heating
       state: "off"
   action:
     - service: notify.notify
@@ -394,15 +394,15 @@ Get notified when manual mode active:
 ## 🎯 Summary
 
 **Your correct entity names are:**
-- ✅ `switch.living_room_heating`
-- ✅ `switch.dormitor_heating`
-- ✅ `switch.birou_heating`
-- ✅ `switch.luca_room_heating`
+- ✅ `switch.climate_scheduler_living_room_heating`
+- ✅ `switch.climate_scheduler_dormitor_heating`
+- ✅ `switch.climate_scheduler_birou_heating`
+- ✅ `switch.climate_scheduler_luca_room_heating`
 
 **NOT:**
+- ❌ `switch.living_room_heating`
 - ❌ `switch.living_room_heating_scheduler`
 - ❌ `switch.bedroom_dormitor_heating_scheduler`
-- ❌ etc.
 
 **Copy the first YAML code at the top of this file** - it's ready to use! 🚀
 
