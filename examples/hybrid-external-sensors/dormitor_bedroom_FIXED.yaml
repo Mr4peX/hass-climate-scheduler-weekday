@@ -9,8 +9,9 @@ triggers:
       seconds: 30  # ← NEW: Wait 30 seconds before acting (prevents sensor noise spam)
   
   # Time pattern: +2 minute offset from Living Room (prevents Zigbee queue collision)
-  - minutes: "2,12,22,32,42,52"  # ← CHANGED: Fires at :02, :12, :22, :32, :42, :52
+  - minutes: /10
     trigger: time_pattern
+    offset: "00:02:00"  # ← CHANGED: +2 minute offset from :00
 
 conditions:
   # Ensure sensor has valid value before sending to thermostats
