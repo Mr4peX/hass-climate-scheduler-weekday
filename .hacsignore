@@ -1,0 +1,22 @@
+# HACS Ignore File
+# Files and folders listed here will NOT be included in HACS installations
+# Only custom_components/ is installed to Home Assistant
+
+# Documentation files (users can read on GitHub)
+examples/
+GITHUB_NOTIFICATIONS_FIX.md
+WORKFLOWS_DISABLED.md
+
+# Development files
+tests/
+pytest.ini
+validate_hassfest.yml
+
+# CI/CD (already disabled)
+.github/workflows/
+
+# Python development
+requirements.txt
+__pycache__/
+*.pyc
+*.pyo
