@@ -1,0 +1,34 @@
+alias: Birou - Sync External Temperature (Hybrid) - FIXED v2
+description: Real-time updates + 10min keep-alive with rate limiting, offset +5min from Living Room, WITH error handling for Zigbee issues
+triggers:
+  # State trigger with 30-second stabilization to prevent rapid-fire updates
+  - entity_id:
+      - sensor.birou_temperature
+    trigger: state
+    for:
+      seconds: 30  # ← Wait 30 seconds before acting (prevents sensor noise spam)
+  
+  # Template trigger for :05, :15, :25, :35, :45, :55
+  # Fires 5 minutes after Living Room, 3 minutes after Bedroom
+  - trigger: template
+    value_template: >-
+      {{ now().minute % 10 == 5 and now().second == 0 }}
+
+conditions:
+  # Ensure sensor has valid value before sending to thermostat
+  - condition: template
+    value_template: "{{ states('sensor.birou_temperature') not in ['unknown', 'unavailable'] }}"
+
+actions:
+  # Single thermostat with continue_on_error for Zigbee library bug resilience
+  - metadata: {}
+    data:
+      value: "{{ states('sensor.birou_temperature') }}"
+    target:
+      entity_id: number.birou_temperature
+    action: number.set_value
+    continue_on_error: true  # ← If Zigbee error, log but don't crash automation
+
+# Prevent overlapping executions and silent fail on overflow
+mode: single  # Only one instance runs at a time
+max_exceeded: silent  # Don't spam logs if triggered too fast

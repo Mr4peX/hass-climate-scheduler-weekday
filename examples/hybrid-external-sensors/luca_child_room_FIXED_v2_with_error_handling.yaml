@@ -1,0 +1,35 @@
+alias: Cam Luca - Sync External Temp to Thermostat (Hybrid) - FIXED v2
+description: Real-time updates + 10min keep-alive with rate limiting, offset +8min from Living Room, WITH error handling for Zigbee issues
+triggers:
+  # State trigger with 30-second stabilization to prevent rapid-fire updates
+  - entity_id:
+      - sensor.luca_temp_umiditate_temperature
+    trigger: state
+    for:
+      seconds: 30  # ← Wait 30 seconds before acting (prevents sensor noise spam)
+  
+  # Template trigger for :08, :18, :28, :38, :48, :58
+  # Fires 8 minutes after Living Room, 6 minutes after Bedroom, 3 minutes after Office
+  - trigger: template
+    value_template: >-
+      {{ now().minute % 10 == 8 and now().second == 0 }}
+
+conditions:
+  # Ensure sensor has valid value before sending to thermostat
+  - condition: template
+    value_template: >-
+      {{ states('sensor.luca_temp_umiditate_temperature') not in ['unknown', 'unavailable'] }}
+
+actions:
+  # Single thermostat with continue_on_error for Zigbee library bug resilience
+  - metadata: {}
+    data:
+      value: "{{ states('sensor.luca_temp_umiditate_temperature') }}"
+    target:
+      entity_id: number.sonoff_trvzb_external_temperature_sensor_value
+    action: number.set_value
+    continue_on_error: true  # ← If Zigbee error, log but don't crash automation
+
+# Prevent overlapping executions and silent fail on overflow
+mode: single  # Only one instance runs at a time
+max_exceeded: silent  # Don't spam logs if triggered too fast
