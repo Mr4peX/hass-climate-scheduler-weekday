@@ -25,6 +25,20 @@ schedule:
 
 ![Climate Scheduler UI](https://github.com/FrancisLab/hass-climate-scheduler/blob/main/climate_scheduler.png)
 
+## 📚 Examples & Guides
+
+**New to Climate Scheduler? Start here!** → **[examples/](examples/)**
+
+We've created comprehensive guides and real-world examples to help you get started:
+
+- **📊 CSV Template** - Edit schedules in Excel/LibreOffice (much easier than YAML!)
+- **🏠 Complete System** - Production config with 252 schedule entries (4 rooms, 8 thermostats)
+- **🔄 Hybrid External Sensors** - Prevent 2-hour timeout issue with keep-alive automations
+- **📅 Three-Profile System** - Weekly/Away/Holiday modes with automatic switching
+- **📖 Step-by-Step Deployment** - Beginner to advanced guides with testing procedures
+
+**[→ Browse Examples](examples/)** | **[→ Quick Start Guide](examples/DEPLOYMENT_GUIDE.md)** | **[→ Download CSV Template](examples/schedules/heating_schedule_template.csv)**
+
 ## Installation
 
 Install the custom component using [HACS](https://hacs.xyz/) (recommended), or manually by copying `custom_components\climate_scheduler` to your `config\custom_components` directory.
