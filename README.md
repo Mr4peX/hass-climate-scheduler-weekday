@@ -25,9 +25,13 @@ schedule:
 
 ![Climate Scheduler UI](https://github.com/FrancisLab/hass-climate-scheduler/blob/main/climate_scheduler.png)
 
+---
+
 ## 📚 Examples & Guides
 
-**New to Climate Scheduler? Start here!** → **[examples/](examples/)**
+> **💡 Important:** HACS installs **only the integration code** (clean and minimal). Examples and guides are available **on GitHub** for you to browse, read, and download as needed. This keeps your Home Assistant installation clean while providing comprehensive documentation when you need it.
+
+**New to Climate Scheduler? Start here!** → **[Browse Examples on GitHub](examples/)**
 
 We've created comprehensive guides and real-world examples to help you get started:
 
@@ -37,7 +41,18 @@ We've created comprehensive guides and real-world examples to help you get start
 - **📅 Three-Profile System** - Weekly/Away/Holiday modes with automatic switching
 - **📖 Step-by-Step Deployment** - Beginner to advanced guides with testing procedures
 
-**[→ Browse Examples](examples/)** | **[→ Quick Start Guide](examples/DEPLOYMENT_GUIDE.md)** | **[→ Download CSV Template](examples/schedules/heating_schedule_template.csv)**
+**[→ Browse Examples on GitHub](examples/)** | **[→ Quick Start Guide](examples/DEPLOYMENT_GUIDE.md)** | **[→ Download CSV Template](examples/schedules/heating_schedule_template.csv)**
+
+### 📦 What Gets Installed via HACS
+
+HACS installs **only the core integration** to keep your system clean:
+- ✅ `custom_components/climate_scheduler/` (3 Python files, ~50KB)
+- ❌ Examples folder is **not installed** (browse on GitHub instead)
+- ❌ Documentation is **not installed** (read online)
+
+**All examples and guides remain on GitHub for easy access without cluttering your Home Assistant installation!**
+
+---
 
 ## Installation
 
