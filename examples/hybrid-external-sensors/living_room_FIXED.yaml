@@ -1,0 +1,35 @@
+alias: Living Room - External Sensor (Hybrid) - FIXED
+description: Real-time updates + 10min keep-alive with rate limiting to prevent Zigbee overflow
+triggers:
+  # State trigger with 30-second stabilization to prevent rapid-fire updates
+  - entity_id:
+      - sensor.living_temp_umiditate_temperature
+    trigger: state
+    for:
+      seconds: 30  # ← NEW: Wait 30 seconds before acting (prevents sensor noise spam)
+  
+  # Time pattern: Keep :00 timing (Living Room fires first)
+  - minutes: /10  # Fires at :00, :10, :20, :30, :40, :50
+    trigger: time_pattern
+
+conditions:
+  # Ensure sensor has valid value before sending to thermostats
+  - condition: template
+    value_template: >-
+      {{ states('sensor.living_temp_umiditate_temperature') not in ['unknown', 'unavailable'] }}
+
+actions:
+  - metadata: {}
+    data:
+      value: "{{ states('sensor.living_temp_umiditate_temperature') }}"
+    target:
+      entity_id:
+        - number.living_calorifer_external_temperature_sensor_value
+        - number.hol_intrare_calorifer_external_temperature_sensor_value
+        - number.bucatarie_calorifer_external_temperature_sensor_value
+        - number.hol_parter_calorifer_external_temperature_sensor_value
+    action: number.set_value
+
+# NEW: Prevent overlapping executions and silent fail on overflow
+mode: single  # Only one instance runs at a time
+max_exceeded: silent  # Don't spam logs if triggered too fast
