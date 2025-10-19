@@ -1,0 +1,35 @@
+# ============================================================================
+# CAM LUCA (LUCA'S ROOM) - HYBRID EXTERNAL SENSOR AUTOMATION
+# ============================================================================
+# Real-time updates + 10-minute keep-alive to prevent 2-hour timeout
+# ============================================================================
+
+alias: "Cam Luca - Sync External Temp to Thermostat (Hybrid)"
+description: "Real-time + every 10min keep-alive"
+
+trigger:
+  # Trigger 1: Real-time when temperature changes
+  - platform: state
+    entity_id:
+      - sensor.luca_temp_umiditate_temperature
+  
+  # Trigger 2: Keep-alive every 10 minutes (prevents 2h timeout)
+  - platform: time_pattern
+    minutes: "/10"
+
+condition:
+  # Only run if sensor has valid value (not unknown/unavailable)
+  - condition: template
+    value_template: >-
+      {{ states('sensor.luca_temp_umiditate_temperature') not in ['unknown', 'unavailable'] }}
+
+action:
+  # Update Cam Luca thermostat with current temperature
+  - service: number.set_value
+    metadata: {}
+    data:
+      value: "{{ states('sensor.luca_temp_umiditate_temperature') }}"
+    target:
+      entity_id: number.sonoff_trvzb_external_temperature_sensor_value
+
+mode: restart

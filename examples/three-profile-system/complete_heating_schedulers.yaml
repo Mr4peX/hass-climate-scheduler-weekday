@@ -1,0 +1,1003 @@
+# ==========================================
+# LIVING ROOM SCHEDULER - EXACT CSV STRUCTURE
+# ==========================================
+- platform: climate_scheduler
+  name: Living Room Heating
+  default_state: true
+  default_profile: "Weekly Schedule"
+  climate_entities:
+    - climate.living_calorifer_thermostat
+    - climate.bucatarie_calorifer_thermostat
+    - climate.hol_intrare_calorifer_thermostat
+    - climate.hol_parter_calorifer_thermostat
+  profiles:
+    - id: "Weekly Schedule"
+      default_hvac_mode: "heat"
+      default_fan_mode: "auto"
+      default_min_temp: 20
+      schedule:
+        # MONDAY
+        - time: "00:00:00"
+          weekdays: [1]
+          min_temp: 20
+        - time: "06:30:00"
+          weekdays: [1]
+          min_temp: 22
+        - time: "08:00:00"
+          weekdays: [1]
+          min_temp: 20
+        - time: "13:30:00"
+          weekdays: [1]
+          min_temp: 20
+        - time: "16:00:00"
+          weekdays: [1]
+          min_temp: 20
+        - time: "17:00:00"
+          weekdays: [1]
+          min_temp: 22
+        - time: "19:00:00"
+          weekdays: [1]
+          min_temp: 22
+        - time: "21:30:00"
+          weekdays: [1]
+          min_temp: 20
+        - time: "23:00:00"
+          weekdays: [1]
+          min_temp: 20
+        
+        # TUESDAY
+        - time: "00:00:00"
+          weekdays: [2]
+          min_temp: 20
+        - time: "06:30:00"
+          weekdays: [2]
+          min_temp: 22
+        - time: "08:00:00"
+          weekdays: [2]
+          min_temp: 20
+        - time: "13:30:00"
+          weekdays: [2]
+          min_temp: 20
+        - time: "16:00:00"
+          weekdays: [2]
+          min_temp: 20
+        - time: "17:00:00"
+          weekdays: [2]
+          min_temp: 22
+        - time: "19:00:00"
+          weekdays: [2]
+          min_temp: 22
+        - time: "21:30:00"
+          weekdays: [2]
+          min_temp: 20
+        - time: "23:00:00"
+          weekdays: [2]
+          min_temp: 20
+        
+        # WEDNESDAY
+        - time: "00:00:00"
+          weekdays: [3]
+          min_temp: 20
+        - time: "06:30:00"
+          weekdays: [3]
+          min_temp: 22
+        - time: "08:00:00"
+          weekdays: [3]
+          min_temp: 20
+        - time: "13:30:00"
+          weekdays: [3]
+          min_temp: 20
+        - time: "16:00:00"
+          weekdays: [3]
+          min_temp: 20
+        - time: "17:00:00"
+          weekdays: [3]
+          min_temp: 22
+        - time: "19:00:00"
+          weekdays: [3]
+          min_temp: 22
+        - time: "21:30:00"
+          weekdays: [3]
+          min_temp: 20
+        - time: "23:00:00"
+          weekdays: [3]
+          min_temp: 20
+        
+        # THURSDAY
+        - time: "00:00:00"
+          weekdays: [4]
+          min_temp: 20
+        - time: "06:30:00"
+          weekdays: [4]
+          min_temp: 22
+        - time: "08:00:00"
+          weekdays: [4]
+          min_temp: 20
+        - time: "13:30:00"
+          weekdays: [4]
+          min_temp: 20
+        - time: "16:00:00"
+          weekdays: [4]
+          min_temp: 20
+        - time: "17:00:00"
+          weekdays: [4]
+          min_temp: 22
+        - time: "19:00:00"
+          weekdays: [4]
+          min_temp: 22
+        - time: "21:30:00"
+          weekdays: [4]
+          min_temp: 20
+        - time: "23:00:00"
+          weekdays: [4]
+          min_temp: 20
+        
+        # FRIDAY
+        - time: "00:00:00"
+          weekdays: [5]
+          min_temp: 20
+        - time: "06:30:00"
+          weekdays: [5]
+          min_temp: 22
+        - time: "08:00:00"
+          weekdays: [5]
+          min_temp: 20
+        - time: "13:30:00"
+          weekdays: [5]
+          min_temp: 20
+        - time: "16:00:00"
+          weekdays: [5]
+          min_temp: 20
+        - time: "17:00:00"
+          weekdays: [5]
+          min_temp: 22
+        - time: "19:00:00"
+          weekdays: [5]
+          min_temp: 22
+        - time: "21:30:00"
+          weekdays: [5]
+          min_temp: 20
+        - time: "23:00:00"
+          weekdays: [5]
+          min_temp: 20
+        
+        # SATURDAY
+        - time: "00:00:00"
+          weekdays: [6]
+          min_temp: 20
+        - time: "06:30:00"
+          weekdays: [6]
+          min_temp: 20
+        - time: "08:00:00"
+          weekdays: [6]
+          min_temp: 22
+        - time: "13:30:00"
+          weekdays: [6]
+          min_temp: 22
+        - time: "16:00:00"
+          weekdays: [6]
+          min_temp: 22
+        - time: "17:00:00"
+          weekdays: [6]
+          min_temp: 22
+        - time: "19:00:00"
+          weekdays: [6]
+          min_temp: 22
+        - time: "21:30:00"
+          weekdays: [6]
+          min_temp: 22
+        - time: "23:00:00"
+          weekdays: [6]
+          min_temp: 20
+        
+        # SUNDAY
+        - time: "00:00:00"
+          weekdays: [7]
+          min_temp: 20
+        - time: "06:30:00"
+          weekdays: [7]
+          min_temp: 20
+        - time: "08:00:00"
+          weekdays: [7]
+          min_temp: 22
+        - time: "13:30:00"
+          weekdays: [7]
+          min_temp: 22
+        - time: "16:00:00"
+          weekdays: [7]
+          min_temp: 22
+        - time: "17:00:00"
+          weekdays: [7]
+          min_temp: 22
+        - time: "19:00:00"
+          weekdays: [7]
+          min_temp: 22
+        - time: "21:30:00"
+          weekdays: [7]
+          min_temp: 22
+        - time: "23:00:00"
+          weekdays: [7]
+          min_temp: 20
+
+    # Away Profile - 19°C constant when away from home
+    - id: "Away"
+      default_hvac_mode: "heat"
+      default_min_temp: 19
+      schedule:
+        - time: "00:00:00"
+          min_temp: 19
+
+    # Holiday Profile - Saturday schedule applied to all days
+    - id: "Holiday"
+      default_hvac_mode: "heat"
+      default_min_temp: 20
+      schedule:
+        - time: "00:00:00"
+          min_temp: 20
+        - time: "06:30:00"
+          min_temp: 20
+        - time: "08:00:00"
+          min_temp: 22
+        - time: "13:30:00"
+          min_temp: 22
+        - time: "16:00:00"
+          min_temp: 22
+        - time: "17:00:00"
+          min_temp: 22
+        - time: "19:00:00"
+          min_temp: 22
+        - time: "21:30:00"
+          min_temp: 22
+        - time: "23:00:00"
+          min_temp: 20
+
+# ==========================================
+# BIROU (OFFICE) SCHEDULER - EXACT CSV STRUCTURE
+# ==========================================
+- platform: climate_scheduler
+  name: Birou Heating
+  default_state: true
+  default_profile: "Weekly Schedule"
+  climate_entities:
+    - climate.birou_calorifer_thermostat
+  profiles:
+    - id: "Weekly Schedule"
+      default_hvac_mode: "heat"
+      default_fan_mode: "auto"
+      default_min_temp: 20
+      schedule:
+        # MONDAY
+        - time: "00:00:00"
+          weekdays: [1]
+          min_temp: 20
+        - time: "06:30:00"
+          weekdays: [1]
+          min_temp: 22
+        - time: "08:00:00"
+          weekdays: [1]
+          min_temp: 20
+        - time: "13:30:00"
+          weekdays: [1]
+          min_temp: 20
+        - time: "16:00:00"
+          weekdays: [1]
+          min_temp: 20
+        - time: "17:00:00"
+          weekdays: [1]
+          min_temp: 22
+        - time: "19:00:00"
+          weekdays: [1]
+          min_temp: 22
+        - time: "21:30:00"
+          weekdays: [1]
+          min_temp: 22
+        - time: "23:00:00"
+          weekdays: [1]
+          min_temp: 22
+        
+        # TUESDAY
+        - time: "00:00:00"
+          weekdays: [2]
+          min_temp: 20
+        - time: "06:30:00"
+          weekdays: [2]
+          min_temp: 22
+        - time: "08:00:00"
+          weekdays: [2]
+          min_temp: 20
+        - time: "13:30:00"
+          weekdays: [2]
+          min_temp: 20
+        - time: "16:00:00"
+          weekdays: [2]
+          min_temp: 20
+        - time: "17:00:00"
+          weekdays: [2]
+          min_temp: 22
+        - time: "19:00:00"
+          weekdays: [2]
+          min_temp: 22
+        - time: "21:30:00"
+          weekdays: [2]
+          min_temp: 22
+        - time: "23:00:00"
+          weekdays: [2]
+          min_temp: 22
+        
+        # WEDNESDAY
+        - time: "00:00:00"
+          weekdays: [3]
+          min_temp: 20
+        - time: "06:30:00"
+          weekdays: [3]
+          min_temp: 22
+        - time: "08:00:00"
+          weekdays: [3]
+          min_temp: 20
+        - time: "13:30:00"
+          weekdays: [3]
+          min_temp: 20
+        - time: "16:00:00"
+          weekdays: [3]
+          min_temp: 20
+        - time: "17:00:00"
+          weekdays: [3]
+          min_temp: 22
+        - time: "19:00:00"
+          weekdays: [3]
+          min_temp: 22
+        - time: "21:30:00"
+          weekdays: [3]
+          min_temp: 22
+        - time: "23:00:00"
+          weekdays: [3]
+          min_temp: 22
+        
+        # THURSDAY
+        - time: "00:00:00"
+          weekdays: [4]
+          min_temp: 20
+        - time: "06:30:00"
+          weekdays: [4]
+          min_temp: 22
+        - time: "08:00:00"
+          weekdays: [4]
+          min_temp: 20
+        - time: "13:30:00"
+          weekdays: [4]
+          min_temp: 20
+        - time: "16:00:00"
+          weekdays: [4]
+          min_temp: 20
+        - time: "17:00:00"
+          weekdays: [4]
+          min_temp: 22
+        - time: "19:00:00"
+          weekdays: [4]
+          min_temp: 22
+        - time: "21:30:00"
+          weekdays: [4]
+          min_temp: 22
+        - time: "23:00:00"
+          weekdays: [4]
+          min_temp: 22
+        
+        # FRIDAY
+        - time: "00:00:00"
+          weekdays: [5]
+          min_temp: 20
+        - time: "06:30:00"
+          weekdays: [5]
+          min_temp: 22
+        - time: "08:00:00"
+          weekdays: [5]
+          min_temp: 20
+        - time: "13:30:00"
+          weekdays: [5]
+          min_temp: 20
+        - time: "16:00:00"
+          weekdays: [5]
+          min_temp: 20
+        - time: "17:00:00"
+          weekdays: [5]
+          min_temp: 22
+        - time: "19:00:00"
+          weekdays: [5]
+          min_temp: 22
+        - time: "21:30:00"
+          weekdays: [5]
+          min_temp: 22
+        - time: "23:00:00"
+          weekdays: [5]
+          min_temp: 22
+        
+        # SATURDAY
+        - time: "00:00:00"
+          weekdays: [6]
+          min_temp: 20
+        - time: "06:30:00"
+          weekdays: [6]
+          min_temp: 20
+        - time: "08:00:00"
+          weekdays: [6]
+          min_temp: 22
+        - time: "13:30:00"
+          weekdays: [6]
+          min_temp: 22
+        - time: "16:00:00"
+          weekdays: [6]
+          min_temp: 22
+        - time: "17:00:00"
+          weekdays: [6]
+          min_temp: 22
+        - time: "19:00:00"
+          weekdays: [6]
+          min_temp: 22
+        - time: "21:30:00"
+          weekdays: [6]
+          min_temp: 22
+        - time: "23:00:00"
+          weekdays: [6]
+          min_temp: 22
+        
+        # SUNDAY
+        - time: "00:00:00"
+          weekdays: [7]
+          min_temp: 20
+        - time: "06:30:00"
+          weekdays: [7]
+          min_temp: 20
+        - time: "08:00:00"
+          weekdays: [7]
+          min_temp: 22
+        - time: "13:30:00"
+          weekdays: [7]
+          min_temp: 22
+        - time: "16:00:00"
+          weekdays: [7]
+          min_temp: 22
+        - time: "17:00:00"
+          weekdays: [7]
+          min_temp: 22
+        - time: "19:00:00"
+          weekdays: [7]
+          min_temp: 22
+        - time: "21:30:00"
+          weekdays: [7]
+          min_temp: 22
+        - time: "23:00:00"
+          weekdays: [7]
+          min_temp: 22
+
+    # Away Profile - 19°C constant when away from home
+    - id: "Away"
+      default_hvac_mode: "heat"
+      default_min_temp: 19
+      schedule:
+        - time: "00:00:00"
+          min_temp: 19
+
+    # Holiday Profile - Saturday schedule applied to all days
+    - id: "Holiday"
+      default_hvac_mode: "heat"
+      default_min_temp: 20
+      schedule:
+        - time: "00:00:00"
+          min_temp: 20
+        - time: "06:30:00"
+          min_temp: 20
+        - time: "08:00:00"
+          min_temp: 22
+        - time: "13:30:00"
+          min_temp: 22
+        - time: "16:00:00"
+          min_temp: 22
+        - time: "17:00:00"
+          min_temp: 22
+        - time: "19:00:00"
+          min_temp: 22
+        - time: "21:30:00"
+          min_temp: 22
+        - time: "23:00:00"
+          min_temp: 22
+
+# ==========================================
+# DORMITOR (BEDROOM) SCHEDULER - EXACT CSV STRUCTURE
+# ==========================================
+- platform: climate_scheduler
+  name: Dormitor Heating
+  default_state: true
+  default_profile: "Weekly Schedule"
+  climate_entities:
+    - climate.dormitor_calorifer_1_thermostat
+    - climate.dormitor_calorifer_2_thermostat
+  profiles:
+    - id: "Weekly Schedule"
+      default_hvac_mode: "heat"
+      default_fan_mode: "auto"
+      default_min_temp: 20
+      schedule:
+        # MONDAY
+        - time: "00:00:00"
+          weekdays: [1]
+          min_temp: 20
+        - time: "06:30:00"
+          weekdays: [1]
+          min_temp: 22
+        - time: "08:00:00"
+          weekdays: [1]
+          min_temp: 20
+        - time: "13:30:00"
+          weekdays: [1]
+          min_temp: 20
+        - time: "16:00:00"
+          weekdays: [1]
+          min_temp: 20
+        - time: "17:00:00"
+          weekdays: [1]
+          min_temp: 20
+        - time: "19:00:00"
+          weekdays: [1]
+          min_temp: 20
+        - time: "21:30:00"
+          weekdays: [1]
+          min_temp: 20
+        - time: "23:00:00"
+          weekdays: [1]
+          min_temp: 20
+        
+        # TUESDAY
+        - time: "00:00:00"
+          weekdays: [2]
+          min_temp: 20
+        - time: "06:30:00"
+          weekdays: [2]
+          min_temp: 22
+        - time: "08:00:00"
+          weekdays: [2]
+          min_temp: 20
+        - time: "13:30:00"
+          weekdays: [2]
+          min_temp: 20
+        - time: "16:00:00"
+          weekdays: [2]
+          min_temp: 20
+        - time: "17:00:00"
+          weekdays: [2]
+          min_temp: 20
+        - time: "19:00:00"
+          weekdays: [2]
+          min_temp: 20
+        - time: "21:30:00"
+          weekdays: [2]
+          min_temp: 20
+        - time: "23:00:00"
+          weekdays: [2]
+          min_temp: 20
+        
+        # WEDNESDAY
+        - time: "00:00:00"
+          weekdays: [3]
+          min_temp: 20
+        - time: "06:30:00"
+          weekdays: [3]
+          min_temp: 22
+        - time: "08:00:00"
+          weekdays: [3]
+          min_temp: 20
+        - time: "13:30:00"
+          weekdays: [3]
+          min_temp: 20
+        - time: "16:00:00"
+          weekdays: [3]
+          min_temp: 20
+        - time: "17:00:00"
+          weekdays: [3]
+          min_temp: 20
+        - time: "19:00:00"
+          weekdays: [3]
+          min_temp: 20
+        - time: "21:30:00"
+          weekdays: [3]
+          min_temp: 20
+        - time: "23:00:00"
+          weekdays: [3]
+          min_temp: 20
+        
+        # THURSDAY
+        - time: "00:00:00"
+          weekdays: [4]
+          min_temp: 20
+        - time: "06:30:00"
+          weekdays: [4]
+          min_temp: 22
+        - time: "08:00:00"
+          weekdays: [4]
+          min_temp: 20
+        - time: "13:30:00"
+          weekdays: [4]
+          min_temp: 20
+        - time: "16:00:00"
+          weekdays: [4]
+          min_temp: 20
+        - time: "17:00:00"
+          weekdays: [4]
+          min_temp: 20
+        - time: "19:00:00"
+          weekdays: [4]
+          min_temp: 20
+        - time: "21:30:00"
+          weekdays: [4]
+          min_temp: 20
+        - time: "23:00:00"
+          weekdays: [4]
+          min_temp: 20
+        
+        # FRIDAY
+        - time: "00:00:00"
+          weekdays: [5]
+          min_temp: 20
+        - time: "06:30:00"
+          weekdays: [5]
+          min_temp: 22
+        - time: "08:00:00"
+          weekdays: [5]
+          min_temp: 20
+        - time: "13:30:00"
+          weekdays: [5]
+          min_temp: 20
+        - time: "16:00:00"
+          weekdays: [5]
+          min_temp: 20
+        - time: "17:00:00"
+          weekdays: [5]
+          min_temp: 20
+        - time: "19:00:00"
+          weekdays: [5]
+          min_temp: 20
+        - time: "21:30:00"
+          weekdays: [5]
+          min_temp: 20
+        - time: "23:00:00"
+          weekdays: [5]
+          min_temp: 20
+        
+        # SATURDAY
+        - time: "00:00:00"
+          weekdays: [6]
+          min_temp: 20
+        - time: "06:30:00"
+          weekdays: [6]
+          min_temp: 21
+        - time: "08:00:00"
+          weekdays: [6]
+          min_temp: 21
+        - time: "13:30:00"
+          weekdays: [6]
+          min_temp: 20
+        - time: "16:00:00"
+          weekdays: [6]
+          min_temp: 20
+        - time: "17:00:00"
+          weekdays: [6]
+          min_temp: 20
+        - time: "19:00:00"
+          weekdays: [6]
+          min_temp: 20
+        - time: "21:30:00"
+          weekdays: [6]
+          min_temp: 20
+        - time: "23:00:00"
+          weekdays: [6]
+          min_temp: 20
+        
+        # SUNDAY
+        - time: "00:00:00"
+          weekdays: [7]
+          min_temp: 20
+        - time: "06:30:00"
+          weekdays: [7]
+          min_temp: 21
+        - time: "08:00:00"
+          weekdays: [7]
+          min_temp: 21
+        - time: "13:30:00"
+          weekdays: [7]
+          min_temp: 20
+        - time: "16:00:00"
+          weekdays: [7]
+          min_temp: 20
+        - time: "17:00:00"
+          weekdays: [7]
+          min_temp: 20
+        - time: "19:00:00"
+          weekdays: [7]
+          min_temp: 20
+        - time: "21:30:00"
+          weekdays: [7]
+          min_temp: 20
+        - time: "23:00:00"
+          weekdays: [7]
+          min_temp: 20
+
+    # Away Profile - 19°C constant when away from home
+    - id: "Away"
+      default_hvac_mode: "heat"
+      default_min_temp: 19
+      schedule:
+        - time: "00:00:00"
+          min_temp: 19
+
+    # Holiday Profile - Saturday schedule applied to all days
+    - id: "Holiday"
+      default_hvac_mode: "heat"
+      default_min_temp: 20
+      schedule:
+        - time: "00:00:00"
+          min_temp: 20
+        - time: "06:30:00"
+          min_temp: 21
+        - time: "08:00:00"
+          min_temp: 21
+        - time: "13:30:00"
+          min_temp: 20
+        - time: "16:00:00"
+          min_temp: 20
+        - time: "17:00:00"
+          min_temp: 20
+        - time: "19:00:00"
+          min_temp: 20
+        - time: "21:30:00"
+          min_temp: 20
+        - time: "23:00:00"
+          min_temp: 20
+
+# ==========================================
+# CAM LUCA (LUCA'S ROOM) SCHEDULER - EXACT CSV STRUCTURE
+# ==========================================
+- platform: climate_scheduler
+  name: Luca Room Heating
+  default_state: true
+  default_profile: "Weekly Schedule"
+  climate_entities:
+    - climate.sonoff_trvzb_thermostat
+  profiles:
+    - id: "Weekly Schedule"
+      default_hvac_mode: "heat"
+      default_fan_mode: "auto"
+      default_min_temp: 20
+      schedule:
+        # MONDAY
+        - time: "00:00:00"
+          weekdays: [1]
+          min_temp: 20
+        - time: "06:30:00"
+          weekdays: [1]
+          min_temp: 22
+        - time: "08:00:00"
+          weekdays: [1]
+          min_temp: 20
+        - time: "13:30:00"
+          weekdays: [1]
+          min_temp: 20
+        - time: "16:00:00"
+          weekdays: [1]
+          min_temp: 20
+        - time: "17:00:00"
+          weekdays: [1]
+          min_temp: 20
+        - time: "19:00:00"
+          weekdays: [1]
+          min_temp: 20
+        - time: "21:30:00"
+          weekdays: [1]
+          min_temp: 22
+        - time: "23:00:00"
+          weekdays: [1]
+          min_temp: 20
+        
+        # TUESDAY
+        - time: "00:00:00"
+          weekdays: [2]
+          min_temp: 20
+        - time: "06:30:00"
+          weekdays: [2]
+          min_temp: 22
+        - time: "08:00:00"
+          weekdays: [2]
+          min_temp: 20
+        - time: "13:30:00"
+          weekdays: [2]
+          min_temp: 20
+        - time: "16:00:00"
+          weekdays: [2]
+          min_temp: 22
+        - time: "17:00:00"
+          weekdays: [2]
+          min_temp: 20
+        - time: "19:00:00"
+          weekdays: [2]
+          min_temp: 21
+        - time: "21:30:00"
+          weekdays: [2]
+          min_temp: 22
+        - time: "23:00:00"
+          weekdays: [2]
+          min_temp: 20
+        
+        # WEDNESDAY
+        - time: "00:00:00"
+          weekdays: [3]
+          min_temp: 20
+        - time: "06:30:00"
+          weekdays: [3]
+          min_temp: 22
+        - time: "08:00:00"
+          weekdays: [3]
+          min_temp: 20
+        - time: "13:30:00"
+          weekdays: [3]
+          min_temp: 20
+        - time: "16:00:00"
+          weekdays: [3]
+          min_temp: 22
+        - time: "17:00:00"
+          weekdays: [3]
+          min_temp: 22
+        - time: "19:00:00"
+          weekdays: [3]
+          min_temp: 21
+        - time: "21:30:00"
+          weekdays: [3]
+          min_temp: 22
+        - time: "23:00:00"
+          weekdays: [3]
+          min_temp: 20
+        
+        # THURSDAY
+        - time: "00:00:00"
+          weekdays: [4]
+          min_temp: 20
+        - time: "06:30:00"
+          weekdays: [4]
+          min_temp: 22
+        - time: "08:00:00"
+          weekdays: [4]
+          min_temp: 20
+        - time: "13:30:00"
+          weekdays: [4]
+          min_temp: 20
+        - time: "16:00:00"
+          weekdays: [4]
+          min_temp: 22
+        - time: "17:00:00"
+          weekdays: [4]
+          min_temp: 22
+        - time: "19:00:00"
+          weekdays: [4]
+          min_temp: 21
+        - time: "21:30:00"
+          weekdays: [4]
+          min_temp: 22
+        - time: "23:00:00"
+          weekdays: [4]
+          min_temp: 20
+        
+        # FRIDAY
+        - time: "00:00:00"
+          weekdays: [5]
+          min_temp: 20
+        - time: "06:30:00"
+          weekdays: [5]
+          min_temp: 22
+        - time: "08:00:00"
+          weekdays: [5]
+          min_temp: 20
+        - time: "13:30:00"
+          weekdays: [5]
+          min_temp: 20
+        - time: "16:00:00"
+          weekdays: [5]
+          min_temp: 20
+        - time: "17:00:00"
+          weekdays: [5]
+          min_temp: 22
+        - time: "19:00:00"
+          weekdays: [5]
+          min_temp: 21
+        - time: "21:30:00"
+          weekdays: [5]
+          min_temp: 22
+        - time: "23:00:00"
+          weekdays: [5]
+          min_temp: 20
+        
+        # SATURDAY
+        - time: "00:00:00"
+          weekdays: [6]
+          min_temp: 20
+        - time: "06:30:00"
+          weekdays: [6]
+          min_temp: 20
+        - time: "08:00:00"
+          weekdays: [6]
+          min_temp: 22
+        - time: "13:30:00"
+          weekdays: [6]
+          min_temp: 22
+        - time: "16:00:00"
+          weekdays: [6]
+          min_temp: 22
+        - time: "17:00:00"
+          weekdays: [6]
+          min_temp: 22
+        - time: "19:00:00"
+          weekdays: [6]
+          min_temp: 22
+        - time: "21:30:00"
+          weekdays: [6]
+          min_temp: 22
+        - time: "23:00:00"
+          weekdays: [6]
+          min_temp: 22
+        
+        # SUNDAY
+        - time: "00:00:00"
+          weekdays: [7]
+          min_temp: 20
+        - time: "06:30:00"
+          weekdays: [7]
+          min_temp: 20
+        - time: "08:00:00"
+          weekdays: [7]
+          min_temp: 22
+        - time: "13:30:00"
+          weekdays: [7]
+          min_temp: 22
+        - time: "16:00:00"
+          weekdays: [7]
+          min_temp: 22
+        - time: "17:00:00"
+          weekdays: [7]
+          min_temp: 22
+        - time: "19:00:00"
+          weekdays: [7]
+          min_temp: 22
+        - time: "21:30:00"
+          weekdays: [7]
+          min_temp: 22
+        - time: "23:00:00"
+          weekdays: [7]
+          min_temp: 22
+
+    # Away Profile - 19°C constant when away from home
+    - id: "Away"
+      default_hvac_mode: "heat"
+      default_min_temp: 19
+      schedule:
+        - time: "00:00:00"
+          min_temp: 19
+
+    # Holiday Profile - Saturday schedule applied to all days
+    - id: "Holiday"
+      default_hvac_mode: "heat"
+      default_min_temp: 20
+      schedule:
+        - time: "00:00:00"
+          min_temp: 20
+        - time: "06:30:00"
+          min_temp: 20
+        - time: "08:00:00"
+          min_temp: 22
+        - time: "13:30:00"
+          min_temp: 22
+        - time: "16:00:00"
+          min_temp: 22
+        - time: "17:00:00"
+          min_temp: 22
+        - time: "19:00:00"
+          min_temp: 22
+        - time: "21:30:00"
+          min_temp: 22
+        - time: "23:00:00"
+          min_temp: 22

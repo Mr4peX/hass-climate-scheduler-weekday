@@ -1,0 +1,37 @@
+# ============================================================================
+# DORMITOR (BEDROOM) - HYBRID EXTERNAL SENSOR AUTOMATION
+# ============================================================================
+# Real-time updates + 10-minute keep-alive to prevent 2-hour timeout
+# ============================================================================
+
+alias: "Dormitor - Sync Temp to 2xThermostat (Hybrid)"
+description: "Real-time + every 10min keep-alive"
+
+trigger:
+  # Trigger 1: Real-time when temperature changes
+  - platform: state
+    entity_id:
+      - sensor.sonoff_snzb_02d_temperature
+  
+  # Trigger 2: Keep-alive every 10 minutes (prevents 2h timeout)
+  - platform: time_pattern
+    minutes: "/10"
+
+condition:
+  # Only run if sensor has valid value (not unknown/unavailable)
+  - condition: template
+    value_template: >-
+      {{ states('sensor.sonoff_snzb_02d_temperature') not in ['unknown', 'unavailable'] }}
+
+action:
+  # Update both dormitor thermostats with current temperature
+  - service: number.set_value
+    metadata: {}
+    data:
+      value: "{{ states('sensor.sonoff_snzb_02d_temperature') }}"
+    target:
+      entity_id:
+        - number.dormitor_calorifer_1_external_temperature_sensor_value
+        - number.dormitor_calorifer_2_external_temperature_sensor_value
+
+mode: restart

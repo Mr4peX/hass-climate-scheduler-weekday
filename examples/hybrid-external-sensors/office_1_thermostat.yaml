@@ -1,0 +1,36 @@
+# ============================================================================
+# BIROU (OFFICE) - HYBRID EXTERNAL SENSOR AUTOMATION
+# ============================================================================
+# Real-time updates + 10-minute keep-alive to prevent 2-hour timeout
+# ============================================================================
+
+alias: "Birou - Sync External Temperature (Hybrid)"
+description: "Real-time + every 10min keep-alive"
+
+trigger:
+  # Trigger 1: Real-time when temperature changes
+  - platform: state
+    entity_id:
+      - sensor.birou_temperature
+  
+  # Trigger 2: Keep-alive every 10 minutes (prevents 2h timeout)
+  - platform: time_pattern
+    minutes: "/10"
+
+condition:
+  # Only run if sensor has valid value (not unknown/unavailable)
+  - condition: template
+    value_template: >-
+      {{ states('sensor.birou_temperature') not in ['unknown', 'unavailable'] }}
+
+action:
+  # Update birou thermostat with current temperature
+  - service: number.set_value
+    metadata: {}
+    data:
+      value: "{{ states('sensor.birou_temperature') }}"
+    target:
+      entity_id:
+        - number.birou_temperature
+
+mode: restart

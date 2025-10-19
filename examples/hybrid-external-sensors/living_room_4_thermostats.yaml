@@ -1,0 +1,87 @@
+# ============================================================================
+# HYBRID TRIGGER AUTOMATION - EXTERNAL SENSOR UPDATE
+# ============================================================================
+# Purpose: Update living room thermostats with external temperature sensor
+#          Using HYBRID approach: Real-time + Keep-alive
+#
+# Triggers:
+#   1. State change (real-time response when temp changes)
+#   2. Time pattern every 10 minutes (prevent 2-hour timeout)
+#
+# Documentation: https://www.home-assistant.io/docs/automation/trigger/
+# ============================================================================
+
+alias: "Living Room - External Sensor (Hybrid Trigger)"
+description: "Updates external sensor every 10min + real-time on temp change"
+
+# ============================================================================
+# TRIGGERS - Multiple triggers with dash (-) prefix
+# ============================================================================
+trigger:
+  # Trigger 1: Real-time response when temperature changes
+  - platform: state
+    entity_id:
+      - sensor.living_temp_umiditate_temperature
+    # Optional: Ignore attribute changes, only state changes
+    # to: null  # Uncomment this to trigger on ANY state change
+  
+  # Trigger 2: Keep-alive every 10 minutes (prevents 2h timeout)
+  - platform: time_pattern
+    minutes: "/10"
+
+# ============================================================================
+# CONDITIONS - Only run if sensor has valid value
+# ============================================================================
+condition:
+  - condition: template
+    value_template: >-
+      {{ states('sensor.living_temp_umiditate_temperature') not in ['unknown', 'unavailable'] }}
+
+# ============================================================================
+# ACTIONS - Update all 4 external sensor values
+# ============================================================================
+action:
+  - service: number.set_value
+    metadata: {}
+    data:
+      value: "{{ states('sensor.living_temp_umiditate_temperature') }}"
+    target:
+      entity_id:
+        - number.living_calorifer_external_temperature_sensor_value
+        - number.hol_intrare_calorifer_external_temperature_sensor_value
+        - number.bucatarie_calorifer_external_temperature_sensor_value
+        - number.hol_parter_calorifer_external_temperature_sensor_value
+
+# ============================================================================
+# MODE - Restart mode (cancel previous run if new trigger fires)
+# ============================================================================
+mode: restart
+
+# ============================================================================
+# HOW IT WORKS:
+# ============================================================================
+# 1. When temperature CHANGES → Trigger 1 fires → Immediate update
+# 2. Every 10 MINUTES → Trigger 2 fires → Keep-alive update (even if temp stable)
+# 3. Thermostat timeout = 2 hours → Our updates every 10min = 12x safety margin
+# 4. Result: Thermostats ALWAYS stay synchronized, never fall back to internal sensor
+#
+# NETWORK IMPACT:
+#   - 144 scheduled updates/day (time_pattern)
+#   - ~100-200 state updates/day (temperature changes)
+#   - Total: ~300 messages/day = 0.001% of Zigbee bandwidth
+#   - Zero battery impact (all devices mains-powered)
+#
+# ALTERNATIVE INTERVALS:
+#   - "/5"  = Every 5 minutes (paranoid, 24x safety margin)
+#   - "/10" = Every 10 minutes (balanced, 12x safety margin) ← RECOMMENDED
+#   - "/30" = Every 30 minutes (minimum safe, 4x safety margin)
+#   - "/60" = Every 60 minutes (risky, 2x safety margin only)
+#
+# TESTING:
+#   1. Save automation
+#   2. Go to Developer Tools → States
+#   3. Watch number.hol_parter_calorifer_external_temperature_sensor_value
+#   4. Check "Last Updated" timestamp updates every 10 minutes
+#   5. Change room temp → Should update immediately
+#   6. Let run for 3+ hours → All 4 values should stay synchronized
+# ============================================================================
