@@ -311,3 +311,61 @@ Each scheduler registers a select_input entity for picking profiles. The profile
 
 - input_select.select_option
 - And other less relevant input_select service calls. (Using input_select.set_options to change the content of the picker might result in undefined behavior)
+
+---
+
+## 🙏 Acknowledgments & Credits
+
+### Original Project
+
+This component is based on the excellent work by **[FrancisLab](https://github.com/FrancisLab)** with their original [hass-climate-scheduler](https://github.com/FrancisLab/hass-climate-scheduler) project.
+
+**Special thanks to FrancisLab** for creating such a robust and well-designed climate scheduling system for Home Assistant. The original codebase provided an excellent foundation with clean architecture, comprehensive documentation, and solid implementation of profile-based scheduling.
+
+### What This Fork Adds
+
+The weekday-specific scheduling feature was developed to address a specific need: **different heating schedules for weekdays versus weekends**. Many households have different routines during the work week compared to weekends, and this enhancement makes it possible to define those patterns naturally within a single profile.
+
+**Key enhancement:**
+- Added `weekdays` parameter to schedule entries, allowing specification of which days (1=Monday through 7=Sunday) each schedule applies to
+- Maintained 100% backward compatibility - existing configurations continue to work without modification
+- Follows the same design patterns and coding standards as the original project
+
+### Why This Fork Exists
+
+This fork was created to solve a real-world heating automation challenge: managing 8 thermostats across 4 zones in a home with distinctly different schedules for weekdays (work/school routines) versus weekends (family time). The original scheduler handled time-based scheduling beautifully, but needed the ability to differentiate between days of the week.
+
+Rather than creating an entirely new component, this enhancement respects and builds upon FrancisLab's excellent work. **All credit for the core functionality goes to the original author.**
+
+### Contributing Back
+
+If you find this weekday scheduling feature useful and would like to see it in the official hass-climate-scheduler, please consider:
+- Opening a discussion in the [original repository](https://github.com/FrancisLab/hass-climate-scheduler)
+- Submitting a pull request with this feature
+- Supporting FrancisLab's work
+
+### License
+
+This fork maintains the same MIT License as the original project, ensuring the code remains open and accessible to the Home Assistant community.
+
+---
+
+## 📞 Support & Community
+
+**For issues specific to weekday scheduling:** Please open an issue in this repository.
+
+**For general scheduler functionality:** Refer to the [original project](https://github.com/FrancisLab/hass-climate-scheduler) and its excellent documentation.
+
+**Home Assistant Community:** Join the discussion at [https://community.home-assistant.io/](https://community.home-assistant.io/)
+
+---
+
+## ⭐ Show Your Support
+
+If this enhanced version helps you automate your home heating:
+- Give this repository a star ⭐
+- Give the [original repository](https://github.com/FrancisLab/hass-climate-scheduler) a star ⭐⭐
+- Share your configuration examples with the community
+- Report bugs and suggest improvements
+
+**Thank you to FrancisLab and the entire Home Assistant community for making home automation accessible and powerful!** 🏠🔥

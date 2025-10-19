@@ -99,9 +99,16 @@ def unique_profiles(profiles: dict) -> dict:
 
 
 def unique_schedule_times(schedules: dict) -> dict:
-    times = [s.get(CONF_SCHEDULE_TIME).total_seconds() for s in schedules]
-    if (len(times)) != len(set(times)):
-        raise vol.Invalid("Schedule times must be unique within a profile")
+    # Check uniqueness based on time AND weekdays combination
+    # This allows same time for different weekdays (e.g., 06:30 Monday, 06:30 Tuesday)
+    time_weekday_combos = []
+    for s in schedules:
+        time_seconds = s.get(CONF_SCHEDULE_TIME).total_seconds()
+        weekdays = tuple(sorted(s.get(CONF_SCHEDULE_WEEKDAYS, [1, 2, 3, 4, 5, 6, 7])))
+        time_weekday_combos.append((time_seconds, weekdays))
+    
+    if len(time_weekday_combos) != len(set(time_weekday_combos)):
+        raise vol.Invalid("Schedule times must be unique within a profile (same time+weekday combination found)")
     return schedules
 
 
