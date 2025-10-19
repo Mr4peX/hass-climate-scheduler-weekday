@@ -1,0 +1,121 @@
+alias: Central Heating ON - Any Thermostat Calls for Heat - ADVANCED
+description: >-
+  Advanced version with relay state checking, stabilization delay,
+  wear protection, and safety features
+triggers:
+  # Monitor all 8 thermostat hvac_action sensors
+  - trigger: state
+    entity_id:
+      - sensor.birou_calorifer_hvac_action
+      - sensor.bucatarie_calorifer_hvac_action
+      - sensor.dormitor_calorifer_1_hvac_action
+      - sensor.dormitor_calorifer_2_hvac_action
+      - sensor.hol_intrare_calorifer_hvac_action
+      - sensor.hol_parter_calorifer_hvac_action
+      - sensor.living_calorifer_hvac_action
+      - sensor.sonoff_trvzb_hvac_action
+
+conditions: []
+
+actions:
+  # 10-second delay to let thermostats stabilize after schedule changes
+  - delay:
+      seconds: 10
+  
+  # Choose based on heating demand
+  - choose:
+      # CASE 1: At least one thermostat is heating → Turn relay ON
+      - conditions:
+          # Count thermostats in "heating" state
+          - condition: template
+            value_template: >-
+              {% set heating_count = [
+                'sensor.birou_calorifer_hvac_action',
+                'sensor.bucatarie_calorifer_hvac_action',
+                'sensor.dormitor_calorifer_1_hvac_action',
+                'sensor.dormitor_calorifer_2_hvac_action',
+                'sensor.hol_intrare_calorifer_hvac_action',
+                'sensor.hol_parter_calorifer_hvac_action',
+                'sensor.living_calorifer_hvac_action',
+                'sensor.sonoff_trvzb_hvac_action'
+              ] | select('is_state', 'heating') | list | count %}
+              {{ heating_count > 0 }}
+          
+          # Only send command if relay is currently OFF
+          - condition: state
+            entity_id: switch.sonoff_1002540801_1
+            state: "off"
+        
+        sequence:
+          - action: switch.turn_on
+            metadata: {}
+            data: {}
+            target:
+              entity_id: switch.sonoff_1002540801_1
+      
+      # CASE 2: All thermostats idle AND relay has been ON for at least 5 minutes → Turn OFF
+      - conditions:
+          # No thermostats heating
+          - condition: template
+            value_template: >-
+              {% set heating_count = [
+                'sensor.birou_calorifer_hvac_action',
+                'sensor.bucatarie_calorifer_hvac_action',
+                'sensor.dormitor_calorifer_1_hvac_action',
+                'sensor.dormitor_calorifer_2_hvac_action',
+                'sensor.hol_intrare_calorifer_hvac_action',
+                'sensor.hol_parter_calorifer_hvac_action',
+                'sensor.living_calorifer_hvac_action',
+                'sensor.sonoff_trvzb_hvac_action'
+              ] | select('is_state', 'heating') | list | count %}
+              {{ heating_count == 0 }}
+          
+          # Relay is currently ON
+          - condition: state
+            entity_id: switch.sonoff_1002540801_1
+            state: "on"
+          
+          # WEAR PROTECTION: Relay has been ON for at least 5 minutes
+          # This prevents rapid ON/OFF cycling which damages relay contacts
+          - condition: template
+            value_template: >-
+              {{ (now() - states.switch.sonoff_1002540801_1.last_changed).total_seconds() > 300 }}
+        
+        sequence:
+          - action: switch.turn_off
+            metadata: {}
+            data: {}
+            target:
+              entity_id: switch.sonoff_1002540801_1
+      
+      # CASE 3: SAFETY - Relay has been ON continuously for 8+ hours → Force OFF
+      - conditions:
+          # Relay is ON
+          - condition: state
+            entity_id: switch.sonoff_1002540801_1
+            state: "on"
+          
+          # Has been ON for more than 8 hours (28800 seconds)
+          - condition: template
+            value_template: >-
+              {{ (now() - states.switch.sonoff_1002540801_1.last_changed).total_seconds() > 28800 }}
+        
+        sequence:
+          # Send notification (optional - requires notify service configured)
+          # - action: notify.notify
+          #   data:
+          #     title: "Central Heating Safety Timeout"
+          #     message: "Relay has been ON for 8+ hours. Forcing OFF for safety."
+          
+          # Force relay OFF
+          - action: switch.turn_off
+            metadata: {}
+            data: {}
+            target:
+              entity_id: switch.sonoff_1002540801_1
+
+# Prevent overlapping executions
+mode: single
+
+# Don't spam logs if multiple triggers fire during delay
+max_exceeded: silent

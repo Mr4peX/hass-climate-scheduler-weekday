@@ -1,0 +1,90 @@
+alias: Central Heating ON - Any Thermostat Calls for Heat - IMPROVED
+description: >-
+  Optimized version with relay state checking, stabilization delay, 
+  and simplified template conditions
+triggers:
+  # Monitor all 8 thermostat hvac_action sensors
+  - trigger: state
+    entity_id:
+      - sensor.birou_calorifer_hvac_action
+      - sensor.bucatarie_calorifer_hvac_action
+      - sensor.dormitor_calorifer_1_hvac_action
+      - sensor.dormitor_calorifer_2_hvac_action
+      - sensor.hol_intrare_calorifer_hvac_action
+      - sensor.hol_parter_calorifer_hvac_action
+      - sensor.living_calorifer_hvac_action
+      - sensor.sonoff_trvzb_hvac_action
+
+conditions: []
+
+actions:
+  # 10-second delay to let thermostats stabilize after schedule changes
+  # This prevents 8 triggers from schedule change causing 8 relay commands
+  - delay:
+      seconds: 10
+  
+  # Choose based on heating demand
+  - choose:
+      # CASE 1: At least one thermostat is heating → Turn relay ON
+      - conditions:
+          # Count thermostats in "heating" state using template
+          - condition: template
+            value_template: >-
+              {% set heating_count = [
+                'sensor.birou_calorifer_hvac_action',
+                'sensor.bucatarie_calorifer_hvac_action',
+                'sensor.dormitor_calorifer_1_hvac_action',
+                'sensor.dormitor_calorifer_2_hvac_action',
+                'sensor.hol_intrare_calorifer_hvac_action',
+                'sensor.hol_parter_calorifer_hvac_action',
+                'sensor.living_calorifer_hvac_action',
+                'sensor.sonoff_trvzb_hvac_action'
+              ] | select('is_state', 'heating') | list | count %}
+              {{ heating_count > 0 }}
+          
+          # Only send command if relay is currently OFF (prevent redundant commands)
+          - condition: state
+            entity_id: switch.sonoff_1002540801_1
+            state: "off"
+        
+        sequence:
+          - action: switch.turn_on
+            metadata: {}
+            data: {}
+            target:
+              entity_id: switch.sonoff_1002540801_1
+      
+      # CASE 2: All thermostats are idle → Turn relay OFF
+      - conditions:
+          # Count thermostats in "heating" state
+          - condition: template
+            value_template: >-
+              {% set heating_count = [
+                'sensor.birou_calorifer_hvac_action',
+                'sensor.bucatarie_calorifer_hvac_action',
+                'sensor.dormitor_calorifer_1_hvac_action',
+                'sensor.dormitor_calorifer_2_hvac_action',
+                'sensor.hol_intrare_calorifer_hvac_action',
+                'sensor.hol_parter_calorifer_hvac_action',
+                'sensor.living_calorifer_hvac_action',
+                'sensor.sonoff_trvzb_hvac_action'
+              ] | select('is_state', 'heating') | list | count %}
+              {{ heating_count == 0 }}
+          
+          # Only send command if relay is currently ON (prevent redundant commands)
+          - condition: state
+            entity_id: switch.sonoff_1002540801_1
+            state: "on"
+        
+        sequence:
+          - action: switch.turn_off
+            metadata: {}
+            data: {}
+            target:
+              entity_id: switch.sonoff_1002540801_1
+
+# Prevent overlapping executions
+mode: single
+
+# Don't spam logs if multiple triggers fire during delay
+max_exceeded: silent
