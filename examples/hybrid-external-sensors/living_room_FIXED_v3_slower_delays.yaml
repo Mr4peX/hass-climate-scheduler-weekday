@@ -35,7 +35,7 @@ actions:
   
   # INCREASED: 3-second delay (better network stability)
   - delay:
-      seconds: 3
+      seconds: 5
   
   # Thermostat 2: Entrance Hall
   - metadata: {}
@@ -48,7 +48,7 @@ actions:
   
   # INCREASED: 3-second delay
   - delay:
-      seconds: 3
+      seconds: 5
   
   # Thermostat 3: Kitchen (WAS FAILING - needs more time)
   - metadata: {}
@@ -59,9 +59,9 @@ actions:
     action: number.set_value
     continue_on_error: true
   
-  # INCREASED: 3-second delay
+  # INCREASED: 5-second delay
   - delay:
-      seconds: 3
+      seconds: 5
   
   # Thermostat 4: Ground Floor Hall
   - metadata: {}

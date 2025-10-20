@@ -1,11 +1,12 @@
 {
   "domain": "climate_scheduler",
   "name": "Climate Scheduler Weekday",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "documentation": "https://github.com/Mr4peX/hass-climate-scheduler-weekday",
   "issue_tracker": "https://github.com/Mr4peX/hass-climate-scheduler-weekday/issues",
-  "dependencies": ["input_select", "switch", "climate"],
+  "requirements": [],
+  "dependencies": ["climate"],
   "codeowners": ["@Mr4peX"],
   "config_flow": false,
-  "iot_class" : "calculated"
+  "iot_class": "calculated"
 }
