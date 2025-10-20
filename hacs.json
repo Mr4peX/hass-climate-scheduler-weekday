@@ -3,6 +3,6 @@
   "domains": ["climate", "switch"],
   "homeassistant": "2021.3.0",
   "persistent_directory": "userfiles",
-  "iot_class": ["Assumed State", "Local Push"],
+  "iot_class": "calculated",
   "render_readme": true
 }
