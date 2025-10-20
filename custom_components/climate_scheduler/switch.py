@@ -42,10 +42,10 @@ from homeassistant.const import (
     STATE_OFF,
     STATE_ON,
 )
-from homeassistant.core import HomeAssistant, State
+from homeassistant.core import HomeAssistant, State, Event
 from homeassistant.helpers.entity import Entity
 from homeassistant.helpers.event import (
-    async_track_state_change,
+    async_track_state_change_event,
     async_track_time_change,
     async_track_time_interval,
 )
@@ -417,7 +417,7 @@ class ClimateSchedulerSwitch(SwitchEntity, RestoreEntity):
         await input_select_platform.async_add_entities([self._profile_selector])
 
         # Subscribe for profile changes
-        self._profile_tracker_remover = async_track_state_change(
+        self._profile_tracker_remover = async_track_state_change_event(
             self._hass,
             [self._profile_selector.entity_id],
             self._async_on_profile_selector_change,
@@ -455,9 +455,12 @@ class ClimateSchedulerSwitch(SwitchEntity, RestoreEntity):
         self.async_schedule_update_ha_state()
 
     async def _async_on_profile_selector_change(
-        self, entity_id: str, old_state: State, new_state: State
+        self, event: Event
     ) -> None:
         """Invoked when a different profile has been chosen via input select"""
+        new_state = event.data.get("new_state")
+        if new_state is None:
+            return
         await self._async_update_profile(new_state.state)
 
     async def _async_update_profile(self, new_profile_id: str) -> None:
