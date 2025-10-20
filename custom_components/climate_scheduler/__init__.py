@@ -8,7 +8,7 @@ import homeassistant.helpers.config_validation as cv
 from homeassistant.core import HomeAssistant
 
 
-VERSION = "1.0.2"
+VERSION = "1.0.3"
 
 DOMAIN = "climate_scheduler"
 CLIMATE_SCHEDULER_PLATFORMS = ["switch"]
