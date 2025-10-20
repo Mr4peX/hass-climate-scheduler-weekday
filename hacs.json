@@ -1,9 +1,8 @@
 {
   "name": "Climate Scheduler Weekday",
   "domains": ["climate", "switch"],
-  "homeassistant": "2021.3",
+  "homeassistant": "2021.3.0",
   "persistent_directory": "userfiles",
   "iot_class": ["Assumed State", "Local Push"],
-  "render_readme": true,
-  "zip_release": true
+  "render_readme": true
 }
