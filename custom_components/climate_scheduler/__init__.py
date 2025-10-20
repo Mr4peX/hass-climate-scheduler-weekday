@@ -8,8 +8,10 @@ import homeassistant.helpers.config_validation as cv
 from homeassistant.core import HomeAssistant
 
 
-VERSION = "1.0.4"
+from homeassistant.helpers.entity import Entity
+from homeassistant.util import slugify
 
+VERSION = "1.0.5"
 DOMAIN = "climate_scheduler"
 CLIMATE_SCHEDULER_PLATFORMS = ["switch"]
 CLIMATE_SCHEDULER_UPDATE_TOPIC = "{0}_update".format(DOMAIN)

@@ -441,14 +441,16 @@ class ClimateSchedulerSwitch(SwitchEntity, RestoreEntity):
 
         if ATTR_PROFILE in previous_attributes:
             await self._async_update_profile(previous_attributes[ATTR_PROFILE])
-            await self._hass.services.async_call(
-                INPUT_SELECT_DOMAIN,
-                SERVICE_SELECT_OPTION,
-                {
-                    ATTR_ENTITY_ID: self._profile_selector.entity_id,
-                    ATTR_OPTION: self.current_profile_id,
-                },
-            )
+            # Only update selector if it was created (input_select platform exists)
+            if hasattr(self, '_profile_selector') and self._profile_selector is not None:
+                await self._hass.services.async_call(
+                    INPUT_SELECT_DOMAIN,
+                    SERVICE_SELECT_OPTION,
+                    {
+                        ATTR_ENTITY_ID: self._profile_selector.entity_id,
+                        ATTR_OPTION: self.current_profile_id,
+                    },
+                )
 
         self.async_schedule_update_ha_state()
 
