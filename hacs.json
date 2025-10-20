@@ -5,6 +5,5 @@
   "persistent_directory": "userfiles",
   "iot_class": ["Assumed State", "Local Push"],
   "render_readme": true,
-  "filename": "hass-climate-scheduler-weekday.zip",
   "zip_release": true
 }
